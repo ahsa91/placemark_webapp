@@ -25,7 +25,7 @@ export const dashboardController = {
     handler: async function (request, h) {
       // Create a new placemark object with the title from the request payload
       const newPlacemark = {
-        title: request.payload.title,
+        category: request.payload.category,
       };
 
       // Add the new placemark to the database
