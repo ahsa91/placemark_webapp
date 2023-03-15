@@ -39,9 +39,9 @@ export const accountsController = {
       return h.redirect("/dashboard");
     },
   },
-  logout: {
-    auth: false,
+    logout: {
     handler: function (request, h) {
+      request.cookieAuth.clear();
       return h.redirect("/");
     },
   },
