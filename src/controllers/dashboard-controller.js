@@ -1,5 +1,8 @@
 // Importing the 'db' object from the '../models/db.js' file
 import { db } from "../models/db.js";
+// Importing the 'PlacemarkSpec' object from the '../models/joi-schemas.js' file
+import { PlacemarkSpec } from "../models/joi-schemas.js";
+
 
 // Defining an object called 'dashboardController'
 export const dashboardController = {
@@ -23,25 +26,32 @@ export const dashboardController = {
     },
   },
 
-  // Defining a property called 'addPlacemark'
-  addPlacemark: {
-    // Defining a handler function that will be called when a POST request is made to '/dashboard/add-placemark'
-    handler: async function (request, h) {
-      // Getting the logged in user's credentials from the request object
-      const loggedInUser = request.auth.credentials;
-      // Creating a new placemark object with the logged in user's id, name, latitude, and longitude
-      const newPlacemark = {
-        userid: loggedInUser._id,
-        title: request.payload.title,
-        latitude: request.payload.latitude,
-        longitude: request.payload.longitude
-      };
-      // Adding the new placemark to the database using the 'addPlacemark' method of the 'placemarkStore' object from the 'db' object
-      await db.placemarkStore.addPlacemark(newPlacemark);
-      // Redirecting the user back to the '/dashboard' page
-      return h.redirect("/dashboard");
+  // Define route handler for adding a placemark
+addPlacemark: {
+  // Validate incoming payload using Joi schema
+  validate: {
+    payload: PlacemarkSpec, // PlacemarkSpec is the Joi schema for the placemark object
+    options: { abortEarly: false }, // Set option to show all validation errors at once
+    failAction: function (request, h, error) {
+      // If validation fails, render dashboard view with error details and HTTP 400 status code
+      return h.view("dashboard-view", { title: "Add Placemark error", errors: error.details }).takeover().code(400);
     },
   },
+  // Handler function to add a new placemark to the database
+  handler: async function (request, h) {
+    const loggedInUser = request.auth.credentials;
+    // Create a new placemark object with the logged in user's ID and title from the request payload
+    const newPlacemark = {
+      userid: loggedInUser._id,
+      title: request.payload.title,
+    };
+    // Add the new placemark to the database using the placemarkStore
+    await db.placemarkStore.addPlacemark(newPlacemark);
+    // Redirect the user back to the dashboard after adding the placemark
+    return h.redirect("/dashboard");
+  },
+},
+
 
   deletePlacemark: {
     handler: async function (request, h) {
