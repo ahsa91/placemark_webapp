@@ -1,37 +1,44 @@
-// Importing the database module from the models folder
+// Importing the 'db' object from the '../models/db.js' file
 import { db } from "../models/db.js";
 
-// Exporting an object with two methods, index and addPlacemark
+// Defining an object called 'dashboardController'
 export const dashboardController = {
+  
+  // Defining a property called 'index'
   index: {
-    // Index method handles GET requests for the dashboard
+    // Defining a handler function that will be called when a GET request is made to '/dashboard'
     handler: async function (request, h) {
-      // Retrieve all placemarks from the database
-      const placemarks = await db.placemarkStore.getAllPlacemarks();
-
-      // Create an object with title and placemarks properties to be passed to the view
+      // Getting the logged in user's credentials from the request object
+      const loggedInUser = request.auth.credentials;
+      // Retrieving all placemarks for the logged in user using the 'getUserPlacemarks' method of the 'placemarkStore' object from the 'db' object
+      const placemarks = await db.placemarkStore.getUserPlacemarks(loggedInUser._id);
+      // Creating an object containing the logged in user's details and placemarks retrieved above to pass to the view
       const viewData = {
         title: "Placemark Dashboard",
+        user: loggedInUser,
         placemarks: placemarks,
       };
-
-      // Return a view with the data created above
+      // Returning the 'dashboard-view' view with the above viewData
       return h.view("dashboard-view", viewData);
     },
   },
 
+  // Defining a property called 'addPlacemark'
   addPlacemark: {
-    // addPlacemark method handles POST requests to add a new placemark
+    // Defining a handler function that will be called when a POST request is made to '/dashboard/add-placemark'
     handler: async function (request, h) {
-      // Create a new placemark object with the title from the request payload
+      // Getting the logged in user's credentials from the request object
+      const loggedInUser = request.auth.credentials;
+      // Creating a new placemark object with the logged in user's id, name, latitude, and longitude
       const newPlacemark = {
+        userid: loggedInUser._id,
         title: request.payload.title,
+        latitude: request.payload.latitude,
+        longitude: request.payload.longitude
       };
-
-      // Add the new placemark to the database
+      // Adding the new placemark to the database using the 'addPlacemark' method of the 'placemarkStore' object from the 'db' object
       await db.placemarkStore.addPlacemark(newPlacemark);
-
-      // Redirect the user back to the dashboard
+      // Redirecting the user back to the '/dashboard' page
       return h.redirect("/dashboard");
     },
   },

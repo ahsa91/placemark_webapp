@@ -1,5 +1,6 @@
 import { db } from "../models/db.js";
 
+
 export const placemarkController = {
   index: {
     handler: async function (request, h) {

@@ -30,6 +30,10 @@ export const placemarkMemStore = {
     return list;
   },
 
+  async getUserPlacemarks(userid) {
+    return placemarks.filter((placemark) => placemark.userid === userid);
+  },
+
   // Define an asynchronous function to delete a placemark by ID
   async deletePlacemarkById(id) {
     // Find the index of the placemark with the specified ID in the placemarks array
