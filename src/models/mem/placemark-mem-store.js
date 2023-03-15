@@ -1,5 +1,6 @@
 // Import the UUID v4 function
 import { v4 } from "uuid";
+import { detailMemStore } from "./detail-mem-store.js";
 
 // Initialize an empty array to store placemarks
 let placemarks = [];
@@ -24,8 +25,9 @@ export const placemarkMemStore = {
 
   // Define an asynchronous function to get a placemark by ID
   async getPlacemarkById(id) {
-    // Find the placemark with the specified ID in the placemarks array
-    return placemarks.find((placemark) => placemark._id === id);
+    const list=placemarks.find((placemark) => placemark._id === id);
+    list.details=await detailMemStore.getDetailsByPlacemarkId(list._id);
+    return list;
   },
 
   // Define an asynchronous function to delete a placemark by ID
