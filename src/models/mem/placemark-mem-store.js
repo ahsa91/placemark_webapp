@@ -22,12 +22,20 @@ export const placemarkMemStore = {
     // Return the added placemark
     return placemark;
   },
+  async getUserByEmail(email) {
+    let u = users.find((user) => user.email === email);
+    if (u === undefined) u = null;
+    return u;
+  },
 
   // Define an asynchronous function to get a placemark by ID
   async getPlacemarkById(id) {
-    const list=placemarks.find((placemark) => placemark._id === id);
-    list.details=await detailMemStore.getDetailsByPlacemarkId(list._id);
-    return list;
+    const list = placemarks.find((placemark) => placemark._id === id);
+    if (list) {
+      list.details = await detailMemStore.getDetailsByPlacemarkId(list._id);
+      return list;
+    }
+    return null;
   },
 
   async getUserPlacemarks(userid) {
@@ -36,10 +44,14 @@ export const placemarkMemStore = {
 
   // Define an asynchronous function to delete a placemark by ID
   async deletePlacemarkById(id) {
-    // Find the index of the placemark with the specified ID in the placemarks array
     const index = placemarks.findIndex((placemark) => placemark._id === id);
-    // Remove the placemark from the placemarks array
-    placemarks.splice(index, 1);
+    if (index !== -1) placemarks.splice(index, 1);
+  }, 
+
+  async getUserById(id) {
+    let u = users.find((user) => user._id === id);
+    if (u === undefined) u = null;
+    return u;
   },
 
   // Define an asynchronous function to delete all placemarks

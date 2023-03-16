@@ -29,11 +29,16 @@ export const placemarkJsonStore = {
 
   // Retrieve a specific placemark from the database by its ID
   async getPlacemarkById(id) {
-    await db.read(); // Read the database file before accessing it
-    const detail = db.data.placemarks.find((placemark) => placemark._id === id); // Find the placemark in the array of placemarks with the matching ID
-    detail.details = await detailJsonStore.getDetailsByPlacemarkId(detail._id); // Retrieve the details associated with the placemark and add them to the detail property
-    return detail; // Return the placemark with its associated details
+    await db.read();
+    let list = db.data.placemarks.find((placemark) => placemark._id === id);
+    if (list) {
+      list.details = await detailJsonStore.getDetailsByPlacemarkId(list._id);
+    } else {
+      list = null;
+    }
+    return list;
   },
+  
 
   // Retrieve all placemarks belonging to a specific user from the database
   async getUserPlacemarks(userid) {
@@ -43,11 +48,12 @@ export const placemarkJsonStore = {
 
   // Delete a specific placemark from the database by its ID
   async deletePlacemarkById(id) {
-    await db.read(); // Read the database file before accessing it
-    const index = db.data.placemarks.findIndex((placemark) => placemark._id === id); // Find the index of the placemark in the array of placemarks with the matching ID
-    db.data.placemarks.splice(index, 1); // Remove the placemark from the array of placemarks
-    await db.write(); // Write the updated database file to disk
+    await db.read();
+    const index = db.data.placemarks.findIndex((placemark) => placemark._id === id);
+    if (index !== -1) db.data.placemarks.splice(index, 1);
+    await db.write();
   },
+
 
   // Delete all placemarks from the database
   async deleteAllPlacemarks() {
