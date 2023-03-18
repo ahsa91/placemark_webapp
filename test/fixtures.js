@@ -73,4 +73,7 @@ export const maggie = {
       "longitude": "6.9812° W"
     }
   ];
+
+  export const serviceUrl = "http://localhost:3000";
+
   
