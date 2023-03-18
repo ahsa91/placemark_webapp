@@ -16,8 +16,8 @@ export const UserSpec = {
 
 export const DetailSpec = {
   title: Joi.string().required(),
-  latitude: Joi.string().allow("").optional(),
-  longitude: Joi.string().allow("").optional(),
+  latitude: Joi.string().required(),
+  longitude: Joi.string().required(),
 };
 
 export const PlacemarkSpec = {

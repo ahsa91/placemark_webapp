@@ -37,6 +37,8 @@ export const placemarkController = {
         latitude: request.payload.latitude,
         longitude: request.payload.longitude,
       };
+      console.log(newDetail);
+      console.log("placemark._id",placemark._id);
       // Add the new detail to the placemark using the detailStore
       await db.detailStore.addDetail(placemark._id, newDetail);
       // Redirect the user back to the placemark view after adding the detail

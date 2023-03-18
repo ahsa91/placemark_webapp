@@ -11,7 +11,7 @@ export const placemarkMongoStore = {
     if (id) {
       const placemark = await Placemark.findOne({ _id: id }).lean();
       if (placemark) {
-        Placemark.details = await detailMongoStore.getDetailsByPlacemarkId(placemark._id);
+        placemark.details = await detailMongoStore.getDetailsByPlacemarkId(placemark._id);
       }
       return placemark;
     }

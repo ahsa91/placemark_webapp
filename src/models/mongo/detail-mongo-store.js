@@ -1,4 +1,5 @@
 import { Detail } from "./detail.js";
+import { Placemark } from "./placemark.js";
 
 export const detailMongoStore = {
   async getAllDetails() {
