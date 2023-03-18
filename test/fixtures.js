@@ -29,6 +29,8 @@ export const maggie = {
   export const testPlacemark = {
     title: "waterford"
   };
+
+
   
   export const testPlacemarks = [
     {
@@ -39,6 +41,36 @@ export const maggie = {
     },
     {
       title: "cork"
+    }
+
+    
+  ];
+
+  export const institution= {
+    "title": "Technical University",
+  };
+
+  export const college= {
+    "title": "SETU Cork Road",
+    "latitude": "52.24711109965877",
+    "longitude": "-7.138454961081387"
+  };
+  
+  export const testDetails = [
+    {
+      "title": "Tramore Beach",
+      "latitude": "52.1585° N",
+      "longitude": "7.1444° W"
+    },
+    {
+      "title": "Ardmore Beach",
+      "latitude": "51.9518° N",
+      "longitude": "7.7225° W"
+    },
+    {
+      "title": "Woodstown Beach",
+      "latitude": "52.1971° N",
+      "longitude": "6.9812° W"
     }
   ];
   

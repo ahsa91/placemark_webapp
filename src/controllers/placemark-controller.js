@@ -18,31 +18,31 @@ export const placemarkController = {
   },
 
   // Define route handler for adding a new detail to a placemark
-addDetail: {
-  // Validate incoming payload using Joi schema
-  validate: {
-    payload: DetailSpec, // DetailSpec is the Joi schema for the detail object
-    options: { abortEarly: false }, // Set option to show all validation errors at once
-    failAction: function (request, h, error) {
-      // If validation fails, render playlist view with error details and HTTP 400 status code
-      return h.view("placemark-view", { title: "Add detail error", errors: error.details }).takeover().code(400);
+  addDetail: {
+    // Validate incoming payload using Joi schema
+    validate: {
+      payload: DetailSpec, // DetailSpec is the Joi schema for the detail object
+      options: { abortEarly: false }, // Set option to show all validation errors at once
+      failAction: function (request, h, error) {
+        // If validation fails, render placemark view with error details and HTTP 400 status code
+        return h.view("placemark-view", { title: "Add detail error", errors: error.details }).takeover().code(400);
+      },
+    },
+    // Handler function to add a new detail to a placemark in the database
+    handler: async function (request, h) {
+      const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+      // Create a new detail object with title, latitude, and longitude from the request payload
+      const newDetail = {
+        title: request.payload.title,
+        latitude: request.payload.latitude,
+        longitude: request.payload.longitude,
+      };
+      // Add the new detail to the placemark using the detailStore
+      await db.detailStore.addDetail(placemark._id, newDetail);
+      // Redirect the user back to the placemark view after adding the detail
+      return h.redirect(`/placemark/${placemark._id}`);
     },
   },
-  // Handler function to add a new detail to a placemark in the database
-  handler: async function (request, h) {
-    const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-    // Create a new detail object with title, latitude, and longitude from the request payload
-    const newDetail = {
-      title: request.payload.title,
-      latitude: Number(request.payload.latitude),
-      longitude: Number(request.payload.longitude),
-    };
-    // Add the new detail to the placemark using the detailStore
-    await db.detailStore.addDetail(placemark._id, newDetail);
-    // Redirect the user back to the placemark view after adding the detail
-    return h.redirect(`/placemark/${placemark._id}`);
-  },
-},
 
 
   deleteDetail: {
