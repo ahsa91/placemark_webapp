@@ -1,19 +1,29 @@
 import { assert } from "chai";
+import { EventEmitter } from "events";
 import { placemarkService } from "./placemark-service.js";
 import { assertSubset } from "../test-utils.js";
-
 import { maggie, testPlacemark, testPlacemarks } from "../fixtures.js";
+
+
+EventEmitter.setMaxListeners(25);
+
+
 
 suite("Placemark API tests", () => {
 
   let user = null;
 
   setup(async () => {
+    placemarkService.clearAuth();
+    user = await placemarkService.createUser(maggie);
+    await placemarkService.authenticate(maggie);
     await placemarkService.deleteAllPlacemarks();
     await placemarkService.deleteAllUsers();
     user = await placemarkService.createUser(maggie);
+    await placemarkService.authenticate(maggie);
     testPlacemark.userid = user._id;
   });
+
 
   teardown(async () => {});
 
@@ -23,7 +33,7 @@ suite("Placemark API tests", () => {
     assertSubset(testPlacemark, returnedPlacemark);
   });
 
-  test("delete a Placemark", async () => {
+  test("delete a placemark", async () => {
     const placemark = await placemarkService.createPlacemark(testPlacemark);
     const response = await placemarkService.deletePlacemark(placemark._id);
     assert.equal(response.status, 204);

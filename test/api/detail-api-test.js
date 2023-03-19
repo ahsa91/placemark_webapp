@@ -8,13 +8,18 @@ suite("Detail API tests", () => {
   let secondaryPlacemarks = null;
 
   setup(async () => {
-    await placemarkService.deleteAllPlacemarks();
-    await placemarkService.deleteAllUsers();
-    await placemarkService.deleteAllDetails();
+    placemarkService.clearAuth();
     user = await placemarkService.createUser(maggie);
-    mozart.userid = user._id;
-    secondaryPlacemarks = await placemarkService.createPlacemark(mozart);
+    await placemarkService.authenticate(maggie);
+    await placemarkService.deleteAllPlacemarks();
+    await placemarkService.deleteAllDetails();
+    await placemarkService.deleteAllUsers();
+    user = await placemarkService.createUser(maggie);
+    await placemarkService.authenticate(maggie);
+    testPlacemark.userid = user._id;
+    secondaryPlacemarks = await placemarkService.createPlacemark(testPlacemark);
   });
+
 
   teardown(async () => {});
 

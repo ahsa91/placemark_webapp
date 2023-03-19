@@ -1,36 +1,59 @@
 import Joi from "joi";
 
 
-
-export const UserCredentialsSpec = {
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-};
-
 export const IdSpec = Joi.alternatives().try(Joi.string(), Joi.object()).description("a valid ID");
 
-export const UserSpec = Joi.object()
+export const UserCredentialsSpec = Joi.object()
   .keys({
-    firstName: Joi.string().example("Homer").required(),
-    lastName: Joi.string().example("Simpson").required(),
     email: Joi.string().email().example("homer@simpson.com").required(),
     password: Joi.string().example("secret").required(),
-    _id: IdSpec,
-    __v: Joi.number(),
   })
-  .label("UserDetails");
+  .label("UserCredentials");
+
+export const UserSpec = UserCredentialsSpec.keys({
+  firstName: Joi.string().example("Homer").required(),
+  lastName: Joi.string().example("Simpson").required(),
+}).label("UserDetails");
+
+export const UserSpecPlus = UserSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("UserDetailsPlus");
+
+export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
 
 
-export const UserArray = Joi.array().items(UserSpec).label("UserArray");
 
 
+export const DetailSpec = Joi.object()
+  .keys({
+    title: Joi.string().required().example("Piano Sonata No. 7"),
+    latitude: Joi.string().required().example("Beethoven"),
+    longitude: Joi.number().allow("").optional().example(12),
+    Placemarkid: IdSpec,
+  })
+  .label("Detail");
 
-export const DetailSpec = {
-  title: Joi.string().required(),
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required(),
-};
+export const DetailSpecPlus = DetailSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("DetailPlus");
 
-export const PlacemarkSpec = {
-  title: Joi.string().required(),
-};
+export const DetailArraySpec = Joi.array().items(DetailSpecPlus).label("DetailArray");
+
+
+export const PlacemarkSpec = Joi.object()
+  .keys({
+    title: Joi.string().required().example("Beethoven Sonatas"),
+    userid: IdSpec,
+    details: DetailArraySpec,
+  })
+  .label("Placemark");
+
+export const PlacemarkSpecPlus = PlacemarkSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("PlacemarkPlus");
+
+export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");
+

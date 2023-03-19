@@ -51,27 +51,37 @@ export const placemarkService = {
   },
 
   async getAllDetails() {
-    const res = await axios.get(`${this.playtimeUrl}/api/details`);
+    const res = await axios.get(`${this.placemarkUrl}/api/details`);
     return res.data;
   },
 
   async createDetail(id, detail) {
-    const res = await axios.post(`${this.playtimeUrl}/api/playlists/${id}/details`, detail);
+    const res = await axios.post(`${this.placemarkUrl}/api/placemarks/${id}/details`, detail);
     return res.data;
   },
 
   async deleteAllDetails() {
-    const res = await axios.delete(`${this.playtimeUrl}/api/details`);
+    const res = await axios.delete(`${this.placemarkUrl}/api/details`);
     return res.data;
   },
 
   async getDetail(id) {
-    const res = await axios.get(`${this.playtimeUrl}/api/details/${id}`);
+    const res = await axios.get(`${this.placemarkUrl}/api/details/${id}`);
     return res.data;
   },
 
   async deleteDetail(id) {
-    const res = await axios.delete(`${this.playtimeUrl}/api/details/${id}`);
+    const res = await axios.delete(`${this.placemarkUrl}/api/details/${id}`);
     return res.data;
+  },
+
+  async authenticate(user) {
+    const response = await axios.post(`${this.placemarkUrl}/api/users/authenticate`, user);
+    axios.defaults.headers.common.Authorization = `Bearer ${  response.data.token}`;
+    return response.data;
+  },
+
+  async clearAuth() {
+    axios.defaults.headers.common.Authorization = "";
   },
 };
