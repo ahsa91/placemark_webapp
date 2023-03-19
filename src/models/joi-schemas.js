@@ -1,6 +1,5 @@
 import Joi from "joi";
 
-
 export const IdSpec = Joi.alternatives().try(Joi.string(), Joi.object()).description("a valid ID");
 
 export const UserCredentialsSpec = Joi.object()
@@ -22,15 +21,12 @@ export const UserSpecPlus = UserSpec.keys({
 
 export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
 
-
-
-
 export const DetailSpec = Joi.object()
   .keys({
     title: Joi.string().required().example("Piano Sonata No. 7"),
     latitude: Joi.string().required().example("Beethoven"),
-    longitude: Joi.number().allow("").optional().example(12),
-    Placemarkid: IdSpec,
+    longitude: Joi.string().allow("").optional().example(12),
+    placemarkid: IdSpec,
   })
   .label("Detail");
 
@@ -40,7 +36,6 @@ export const DetailSpecPlus = DetailSpec.keys({
 }).label("DetailPlus");
 
 export const DetailArraySpec = Joi.array().items(DetailSpecPlus).label("DetailArray");
-
 
 export const PlacemarkSpec = Joi.object()
   .keys({
@@ -57,3 +52,9 @@ export const PlacemarkSpecPlus = PlacemarkSpec.keys({
 
 export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");
 
+export const JwtAuth = Joi.object()
+  .keys({
+    success: Joi.boolean().example("true").required(),
+    token: Joi.string().example("eyJhbGciOiJND.g5YmJisIjoiaGYwNTNjAOhE.gCWGmY5-YigQw0DCBo").required(),
+  })
+  .label("JwtAuth");
