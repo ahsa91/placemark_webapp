@@ -123,4 +123,5 @@ dist
 
 
 
-
+#env
+.env
