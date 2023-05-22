@@ -2,6 +2,7 @@ import { accountsController } from "./controllers/accounts-controller.js";
 import { dashboardController } from "./controllers/dashboard-controller.js";
 import { aboutController } from "./controllers/about-controller.js";
 import { placemarkController } from "./controllers/placemark-controller.js";
+import { noticeboardController } from "./controllers/noticeboard-controller.js";
 
 
 export const webRoutes = [
@@ -15,6 +16,9 @@ export const webRoutes = [
   { method: "GET", path: "/dashboard", config: dashboardController.index },
   { method: "POST", path: "/dashboard/addplacemark", config: dashboardController.addPlacemark },
   { method: "GET", path: "/about", config: aboutController.index },
+
+  { method: "GET", path: "/noticeboard", config: noticeboardController.index},
+
   { method: "GET", path: "/placemark/{id}", config: placemarkController.index },
   { method: "POST", path: "/placemark/{id}/adddetail", config: placemarkController.addDetail },
   {method:"GET", path:"/dashboard/deleteplacemark/{id}", config: dashboardController.deletePlacemark},

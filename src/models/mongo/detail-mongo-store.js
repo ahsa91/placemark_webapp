@@ -44,6 +44,7 @@ export const detailMongoStore = {
     detailDoc.title = updatedDetail.title;
     detailDoc.latitude = updatedDetail.latitude;
     detailDoc.longitude = updatedDetail.longitude;
+    detailDoc.state = updatedDetail.state;
     await detailDoc.save();
   },
 };

@@ -48,5 +48,6 @@ export const detailMemStore = {
     detail.title = updatedDetail.title;
     detail.latitude = updatedDetail.latitude;
     detail.longitude = updatedDetail.longitude;
+    detail.state = updatedDetail.state;
   },
 };

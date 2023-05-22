@@ -36,6 +36,7 @@ export const placemarkController = {
         title: request.payload.title,
         latitude: request.payload.latitude,
         longitude: request.payload.longitude,
+        state: request.payload.state,
       };
       console.log(newDetail);
       console.log("placemark._id",placemark._id);
