@@ -47,6 +47,7 @@ export const detailJsonStore = {
     detail.latitude = updatedDetail.latitude;
     detail.longitude = updatedDetail.longitude;
     detail.state = updatedDetail.state;
+    detail.review = updatedDetail.review;
     await db.write();
   },
 };

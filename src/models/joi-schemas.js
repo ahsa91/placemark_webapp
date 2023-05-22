@@ -33,6 +33,7 @@ export const DetailSpec = Joi.object()
     latitude: Joi.string().required().example("Beethoven"), // Validation rule: required string
     longitude: Joi.string().allow("").optional().example(12), // Validation rule: optional string
     state: Joi.boolean().required().example(true), // Validation rule: required boolean
+    review: Joi.string().allow("").optional().example("Great"), // Validation rule: optional string
     placemarkid: IdSpec, // Validation rule: valid ID
   })
   .label("Detail");

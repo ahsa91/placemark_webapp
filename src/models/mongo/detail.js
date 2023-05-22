@@ -7,6 +7,7 @@ const detailSchema = new Schema({
   latitude: String,
   longitude: String,
   state: Boolean,
+  review: String,
   placemarktid: {
     type: Schema.Types.ObjectId,
     ref: "Placemark",
