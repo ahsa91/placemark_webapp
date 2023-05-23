@@ -83,6 +83,7 @@ export const placemarkController = {
   
       // Log placemarksWithStateFalse to the console
       console.log("Placemarks with state set to false:", placemarksWithStateFalse);
+      console.log("newDetail.state:", newDetail.state);
   
       // Redirect the user back to the placemark view after adding the detail
       return h.redirect(`/placemark/${placemark._id}`);

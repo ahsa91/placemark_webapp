@@ -4,7 +4,9 @@ import { Placemark } from "./placemark.js";
 export const detailMongoStore = {
   async getAllDetails() {
     const details = await Detail.find().lean();
+    console.log(details);
     return details;
+
   },
 
   async addDetail(placemarkId, detail) {
